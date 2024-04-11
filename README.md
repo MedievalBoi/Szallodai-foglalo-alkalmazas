@@ -1,2 +1,4 @@
 # Szallodai-foglalo-alkalmazas
-Keszitette: AXUYQ4
+
+Készítette: Czellár Bence Attila
+Neptunkód: AXUYQ4
