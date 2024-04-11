@@ -29,8 +29,10 @@ class Szalloda:
         self.szobak.append(szoba)
 
     def foglalas(self, szobaszam, datum, nev):
+        talalat = False
         for szoba in self.szobak:
             if szoba.szobaszam == szobaszam:
+                talalat = True
                 if szobaszam not in self.foglalasok:
                     self.foglalasok[szobaszam] = {}
                 if datum in self.foglalasok[szobaszam]:
@@ -39,7 +41,11 @@ class Szalloda:
                 self.foglalasok[szobaszam][datum] = nev
                 print("Sikeres foglalás!")
                 return
-        print("Nincs ilyen szobaszám!")
+        if not talalat:
+            print("Nincs ilyen szobaszám!")
+            print("Elérhető szobaszámok:")
+            for szoba in self.szobak:
+                print(szoba.szobaszam)
 
     def lemondas(self, szobaszam, datum):
         if szobaszam in self.foglalasok and datum in self.foglalasok[szobaszam]:
@@ -54,31 +60,33 @@ class Szalloda:
             for datum, nev in foglalasok.items():
                 print(f"Szoba: {szobaszam}, Dátum: {datum}, Foglaló: {nev}")
 
+    def szoba_informaciok(self, szobaszam):
+        for szoba in self.szobak:
+            if szoba.szobaszam == szobaszam:
+                return print(f"Szoba száma: {szoba.szobaszam}, Ár: {szoba.ar}")
+
 def main():
     szalloda = Szalloda("Czellcorp Szálloda")
 
     for i in range(3):
-        szalloda.szoba_hozzaadasa(EgyagyasSzoba(f"{random.randint(1,50)}", 5000))
-        szalloda.foglalas(f"{random.randint(1,50)}", "2024-04-15", "Steinberg")
-        szalloda.foglalas(f"{random.randint(1,50)}", "2024-04-16", "Steinberg")
-        szalloda.foglalas(f"{random.randint(1,50)}", "2024-04-17", "Steinberg")
-        szalloda.foglalas(f"{random.randint(1,50)}", "2024-04-18", "Steinberg")
-        szalloda.foglalas(f"{random.randint(1,50)}", "2024-04-19", "Steinberg")
+        for j in range(3):
+            szalloda.szoba_hozzaadasa(EgyagyasSzoba(f"{random.randint(1,50)}", 5000))
+            szalloda.szoba_hozzaadasa(EgyagyasSzoba(f"{random.randint(1,50)}", 5000))
+            szalloda.szoba_hozzaadasa(EgyagyasSzoba(f"{random.randint(1,50)}", 5000))
+            szalloda.foglalas(f"{random.randint(1,50)}", "2024. 04. 15.", "Steinberg")
+            szalloda.foglalas(f"{random.randint(1,50)}", "2024. 04. 16.", "Mekk Mester")
+            # szalloda.foglalas(f"{random.randint(1,50)}", "2024. 04. 17.", "Ludas Matyi")
+            # szalloda.foglalas(f"{random.randint(1,50)}", "2024. 04. 18.", "Mario Girotti")
+            # szalloda.foglalas(f"{random.randint(1,50)}", "2024. 04. 19.", "Terence Hill")
 
     for i in range(3):
-        szalloda.szoba_hozzaadasa(EgyagyasSzoba(f"{random.randint(51,100)}", 7500))
-        szalloda.foglalas(f"{random.randint(51,100)}", "2024-03-15", "Steinberg")
-        szalloda.foglalas(f"{random.randint(51,100)}", "2024-03-16", "Steinberg")
-        szalloda.foglalas(f"{random.randint(51,100)}", "2024-03-17", "Steinberg")
-        szalloda.foglalas(f"{random.randint(51,100)}", "2024-03-18", "Steinberg")
-        szalloda.foglalas(f"{random.randint(51,100)}", "2024-03-19", "Steinberg")
-
-    # szalloda.foglalas("11")
-    # szalloda.foglalas("22", "2024-04-16", "Mason")
-    # szalloda.foglalas("69", "2024-04-17", "Banános Joe")
-    # szalloda.foglalas("75", "2024-04-17", "Wilbur Walsh")
-    # szalloda.foglalas("88", "2024-04-17", "Matthew Kirby")
-    # szalloda.foglalas("44", "2024-04-17", "David Speed")
+        for j in range(3):
+            szalloda.szoba_hozzaadasa(KetagyasSzoba(f"{random.randint(51,100)}", 7500))
+            szalloda.foglalas(f"{random.randint(51,100)}", "2024. 03. 15.", "Banános Joe")
+            szalloda.foglalas(f"{random.randint(51,100)}", "2024. 03. 16.", "Teszt Elek")
+            # szalloda.foglalas(f"{random.randint(51,100)}", "2024. 03. 17.", "Kiss Pista")
+            # szalloda.foglalas(f"{random.randint(51,100)}", "2024. 03. 18.", "Carlo Pedersoli")
+            # szalloda.foglalas(f"{random.randint(51,100)}", "2024. 03. 19.", "Bud Spencer")
 
     while True:
         print("\nVálasztható műveletet:")
@@ -91,16 +99,17 @@ def main():
 
         if valasztas == "1":
             szobaszam = input("Add meg a foglalni kívánt szoba számát: ")
-            datum = input("Add meg a foglalás dátumát (YYYY-MM-DD formátumban): ")
+            datum = input("Add meg a foglalás dátumát (Év. Hónap. Nap. (1234. 12. 12.) formátumban): ")
             nev = input("Add meg a foglaló nevét: ")
             szalloda.foglalas(szobaszam, datum, nev)
         elif valasztas == "2":
             szobaszam = input("Add meg a lemondani kívánt foglalás szoba számát: ")
-            datum = input("Add meg a lemondani kívánt foglalás dátumát (YYYY-MM-DD formátumban): ")
+            datum = input("Add meg a lemondani kívánt foglalás dátumát (Év. Hónap. Nap. (1234. 12. 12.) formátumban): ")
             szalloda.lemondas(szobaszam, datum)
         elif valasztas == "3":
             szalloda.foglalasok_listazasa()
         elif valasztas == "4":
+            print("\nKöszönjük foglalását!")
             break
         else:
             print("Érvénytelen választás!")
