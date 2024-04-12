@@ -1,15 +1,14 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
-import random
 
 class Szoba(ABC):
     def __init__(self, szobaszam, ar):
         self.szobaszam = szobaszam
         self.ar = ar
 
-    # @abstractmethod
-    # def szobatipus(self):
-    #     pass
+    @abstractmethod
+    def szobatipus(self):
+        pass
 
 class EgyagyasSzoba(Szoba):
     def szobatipus(self):
@@ -54,13 +53,13 @@ class Szalloda:
         else:
             print("Nem található ilyen foglalás!")
 
-    def foglalasok_listazasa(self):
+    def FoglalasokListazasa(self):
         print("Foglalások:")
         for szobaszam, foglalasok in self.foglalasok.items():
             for datum, nev in foglalasok.items():
                 print(f"Szoba: {szobaszam}, Dátum: {datum}, Foglaló: {nev}")
 
-    def szoba_informaciok(self, szobaszam):
+    def SzobaInformaciok(self, szobaszam):
         for szoba in self.szobak:
             if szoba.szobaszam == szobaszam:
                 return print(f"Szoba száma: {szoba.szobaszam}, Ár: {szoba.ar}")
@@ -68,32 +67,24 @@ class Szalloda:
 def main():
     szalloda = Szalloda("Czellcorp Szálloda")
 
-    for i in range(3):
-        for j in range(3):
-            szalloda.szoba_hozzaadasa(EgyagyasSzoba(f"{random.randint(1,50)}", 5000))
-            szalloda.szoba_hozzaadasa(EgyagyasSzoba(f"{random.randint(1,50)}", 5000))
-            szalloda.szoba_hozzaadasa(EgyagyasSzoba(f"{random.randint(1,50)}", 5000))
-            szalloda.foglalas(f"{random.randint(1,50)}", "2024. 04. 15.", "Steinberg")
-            szalloda.foglalas(f"{random.randint(1,50)}", "2024. 04. 16.", "Mekk Mester")
-            # szalloda.foglalas(f"{random.randint(1,50)}", "2024. 04. 17.", "Ludas Matyi")
-            # szalloda.foglalas(f"{random.randint(1,50)}", "2024. 04. 18.", "Mario Girotti")
-            # szalloda.foglalas(f"{random.randint(1,50)}", "2024. 04. 19.", "Terence Hill")
+    for i in range(100, 200):
+        szalloda.szoba_hozzaadasa(EgyagyasSzoba(f"{i}", 5000))
+    for j in range(200, 300):
+        szalloda.szoba_hozzaadasa(KetagyasSzoba(f"{j}", 8000))
 
-    for i in range(3):
-        for j in range(3):
-            szalloda.szoba_hozzaadasa(KetagyasSzoba(f"{random.randint(51,100)}", 7500))
-            szalloda.foglalas(f"{random.randint(51,100)}", "2024. 03. 15.", "Banános Joe")
-            szalloda.foglalas(f"{random.randint(51,100)}", "2024. 03. 16.", "Teszt Elek")
-            # szalloda.foglalas(f"{random.randint(51,100)}", "2024. 03. 17.", "Kiss Pista")
-            # szalloda.foglalas(f"{random.randint(51,100)}", "2024. 03. 18.", "Carlo Pedersoli")
-            # szalloda.foglalas(f"{random.randint(51,100)}", "2024. 03. 19.", "Bud Spencer")
+    szalloda.foglalas("101", "2024. 04. 15.", "Mekk Mester")
+    szalloda.foglalas("102", "2024. 04. 16.", "Teszt Elek")
+    szalloda.foglalas("201", "2024. 04. 17.", "Wincs Eszter")
+    szalloda.foglalas("101", "2024. 04. 17.", "Bud Spencer")
+    szalloda.foglalas("102", "2024. 04. 17.", "Terence Hill")
 
     while True:
         print("\nVálasztható műveletet:")
         print("1. Foglalás")
         print("2. Lemondás")
         print("3. Foglalások listázása")
-        print("4. Kilépés")
+        print("4. Szobák száma (árral)")
+        print("5. Kilépés")
 
         valasztas = input("Kérem, válasszon: ")
 
@@ -107,8 +98,15 @@ def main():
             datum = input("Add meg a lemondani kívánt foglalás dátumát (Év. Hónap. Nap. (1234. 12. 12.) formátumban): ")
             szalloda.lemondas(szobaszam, datum)
         elif valasztas == "3":
-            szalloda.foglalasok_listazasa()
+            szalloda.FoglalasokListazasa()
         elif valasztas == "4":
+            print("Egyágyas szobák:")
+            for i in range(100, 200):
+                szalloda.SzobaInformaciok(f"{i}")
+            print("Kétágyas szobák:")
+            for j in range(200, 300):
+                szalloda.SzobaInformaciok(f"{j}")
+        elif valasztas == "5":
             print("\nKöszönjük foglalását!")
             break
         else:
