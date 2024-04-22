@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from datetime import datetime
 
 class Szoba(ABC):
     def __init__(self, szobaszam, ar):
@@ -57,7 +56,7 @@ class Szalloda:
         print("Foglalások:")
         for szobaszam, foglalasok in self.foglalasok.items():
             for datum, nev in foglalasok.items():
-                print(f"Szoba: {szobaszam}, Dátum: {datum}, Foglaló: {nev}")
+                print(f"\tSzoba: {szobaszam}, Dátum: {datum}, Foglaló: {nev}")
 
     def SzobaInformaciok(self, szobaszam):
         for szoba in self.szobak:
@@ -68,9 +67,9 @@ def main():
     szalloda = Szalloda("Czellcorp Szálloda")
 
     for i in range(100, 200):
-        szalloda.szoba_hozzaadasa(EgyagyasSzoba(f"{i}", 5000))
+        szalloda.szoba_hozzaadasa(EgyagyasSzoba(f"{i}", f"{5640} Ft"))
     for j in range(200, 300):
-        szalloda.szoba_hozzaadasa(KetagyasSzoba(f"{j}", 8000))
+        szalloda.szoba_hozzaadasa(KetagyasSzoba(f"{j}", f"{8590} Ft"))
 
     szalloda.foglalas("101", "2024. 04. 15.", "Mekk Mester")
     szalloda.foglalas("102", "2024. 04. 16.", "Teszt Elek")
@@ -79,14 +78,15 @@ def main():
     szalloda.foglalas("102", "2024. 04. 17.", "Terence Hill")
 
     while True:
+        print("\nCzellCorp Szálloda")
         print("\nVálasztható műveletet:")
-        print("1. Foglalás")
-        print("2. Lemondás")
+        print("1. Szoba foglalása")
+        print("2. Szoba lemondása")
         print("3. Foglalások listázása")
-        print("4. Szobák száma (árral)")
+        print("4. Szobaszámok & áruk")
         print("5. Kilépés")
 
-        valasztas = input("Kérem, válasszon: ")
+        valasztas = input("\nKérem, válasszon: ")
 
         if valasztas == "1":
             szobaszam = input("Add meg a foglalni kívánt szoba számát: ")
@@ -100,12 +100,17 @@ def main():
         elif valasztas == "3":
             szalloda.FoglalasokListazasa()
         elif valasztas == "4":
-            print("Egyágyas szobák:")
-            for i in range(100, 200):
-                szalloda.SzobaInformaciok(f"{i}")
-            print("Kétágyas szobák:")
-            for j in range(200, 300):
-                szalloda.SzobaInformaciok(f"{j}")
+            MelySzoba=input("Egy- vagy kétágyas szobákat szeretne látni? ")
+            if MelySzoba == "1":
+                print("Egyágyas szobák:")
+                for i in range(100, 200):
+                    szalloda.SzobaInformaciok(f"{i}")
+            elif MelySzoba == "2":
+                print("Kétágyas szobák:")
+                for j in range(200, 300):
+                    szalloda.SzobaInformaciok(f"{j}")
+            else:
+                print("Helytelen bevitel")
         elif valasztas == "5":
             print("\nKöszönjük foglalását!")
             break
