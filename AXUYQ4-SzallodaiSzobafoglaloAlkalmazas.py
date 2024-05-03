@@ -55,21 +55,29 @@ class Szalloda:
     def FoglalasokListazasa(self):
         print("Foglalások:")
         for szobaszam, foglalasok in self.foglalasok.items():
+            print(f"Szoba: {szobaszam}")
             for datum, nev in foglalasok.items():
-                print(f"\tSzoba: {szobaszam}, Dátum: {datum}, Foglaló: {nev}")
+                ar = self.szoba_ar(szobaszam)
+                print(f"\tDátum: {datum}\n\tFoglaló: {nev}\n\tÁr: {ar} Ft")
+            print()
 
     def SzobaInformaciok(self, szobaszam):
         for szoba in self.szobak:
             if szoba.szobaszam == szobaszam:
                 return print(f"Szoba száma: {szoba.szobaszam}, Ár: {szoba.ar}")
 
+    def szoba_ar(self, szobaszam):
+        for szoba in self.szobak:
+            if szoba.szobaszam == szobaszam:
+                return szoba.ar
+
 def main():
     szalloda = Szalloda("Czellcorp Szálloda")
 
     for i in range(100, 200):
-        szalloda.szoba_hozzaadasa(EgyagyasSzoba(f"{i}", f"{5640} Ft"))
+        szalloda.szoba_hozzaadasa(EgyagyasSzoba(f"{i}", f"{5640}"))
     for j in range(200, 300):
-        szalloda.szoba_hozzaadasa(KetagyasSzoba(f"{j}", f"{8590} Ft"))
+        szalloda.szoba_hozzaadasa(KetagyasSzoba(f"{j}", f"{8590}"))
 
     szalloda.foglalas("101", "2024. 04. 15.", "Mekk Mester")
     szalloda.foglalas("102", "2024. 04. 16.", "Teszt Elek")
